@@ -152,7 +152,7 @@ const firebaseConfig = {
   appId: "1:895564432109:web:b3819578b9cbe28a1082e4"
 };
 
-const SITE_PASSWORD_HASH = "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08"; // SHA-256 Hash des Passworts, siehe Anleitung
+const SITE_PASSWORD_HASH = "2939d322d7f88a7d83f59eab28d9e5218f52def298bcc8cf08f6cd43e11f56ef"; // SHA-256 Hash des Passworts, siehe Anleitung
 
 async function sha256(text){
   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
