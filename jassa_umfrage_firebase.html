@@ -152,7 +152,12 @@ const firebaseConfig = {
   appId: "1:895564432109:web:b3819578b9cbe28a1082e4"
 };
 
-const SITE_PASSWORD = "jassa2026"; // <- hier dein gewünschtes Passwort eintragen
+const SITE_PASSWORD_HASH = "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08"; // SHA-256 Hash des Passworts, siehe Anleitung
+
+async function sha256(text){
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
 
 function checkPassword(){
   const gate = document.getElementById("pwGate");
@@ -164,9 +169,10 @@ function checkPassword(){
   document.getElementById("pwInput").addEventListener("keydown", (e) => {
     if(e.key === "Enter") tryPassword();
   });
-  function tryPassword(){
+  async function tryPassword(){
     const val = document.getElementById("pwInput").value;
-    if(val === SITE_PASSWORD){
+    const hash = await sha256(val);
+    if(hash === SITE_PASSWORD_HASH){
       sessionStorage.setItem("jassaAuthed", "yes");
       gate.style.display = "none";
     } else {
