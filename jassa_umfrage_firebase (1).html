@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jassa Terminumfrage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1C2340; --ink-soft:#4A5170;
+    --paper:#F7F4EC; --paper-raised:#FFFFFF;
+    --line:#DDD6C4;
+    --warn-bg:#FBDDB0; --warn-line:#E3AE5C; --warn-text:#7A4E14;
+    --ja:#3F7A4E; --ja-bg:#E4F1E5;
+    --nein:#A24A3C; --nein-bg:#F7E7E2;
+    --sonst:#B08228; --sonst-bg:#FBF0DA;
+    --violet:#5C4A9C;
+  }
+  :root:not([data-theme="light"]) { @media (prefers-color-scheme: dark) {
+    --ink:#EDE9DC; --ink-soft:#B9B3A0;
+    --paper:#171A28; --paper-raised:#20243A;
+    --line:#333854;
+    --warn-bg:#3A2F17; --warn-line:#5C4A22; --warn-text:#E3B45C;
+    --ja:#8FCB98; --ja-bg:#1F3324;
+    --nein:#E29A8B; --nein-bg:#3A241E;
+    --sonst:#E3C071; --sonst-bg:#3A2F17;
+    --violet:#B4A4E8;
+  }}
+  :root[data-theme="dark"]{
+    --ink:#EDE9DC; --ink-soft:#B9B3A0;
+    --paper:#171A28; --paper-raised:#20243A;
+    --line:#333854;
+    --warn-bg:#3A2F17; --warn-line:#5C4A22; --warn-text:#E3B45C;
+    --ja:#8FCB98; --ja-bg:#1F3324;
+    --nein:#E29A8B; --nein-bg:#3A241E;
+    --sonst:#E3C071; --sonst-bg:#3A2F17;
+    --violet:#B4A4E8;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:'Inter',system-ui,sans-serif; padding-bottom:96px;}
+  .wrap{max-width:720px; margin:0 auto; padding:26px 18px 40px;}
+  h1{font-family:'Fraunces',serif; font-weight:600; font-size:clamp(26px,7vw,34px); margin:0 0 6px; line-height:1.1;}
+  .intro{font-size:14px; color:var(--ink-soft); line-height:1.55; background:var(--paper-raised); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin:16px 0 22px;}
+  .intro b{color:var(--ink);}
+  .name-field{background:var(--paper-raised); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:22px;}
+  .name-field label{display:block; font-size:13px; font-weight:600; color:var(--ink-soft); margin-bottom:8px;}
+  .name-field input{width:100%; font-family:inherit; font-size:17px; padding:10px 12px; border-radius:9px; border:1px solid var(--line); background:var(--paper); color:var(--ink);}
+  .name-field input:focus{outline:2px solid var(--violet); outline-offset:1px;}
+  .month-heading{font-family:'Inter',sans-serif; font-weight:600; font-size:15px; color:var(--ink-soft); margin:24px 0 10px; padding-bottom:6px; border-bottom:1px solid var(--line);}
+  .voice-field{background:var(--paper-raised); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:22px;}
+  .voice-field label{display:block; font-size:13px; font-weight:600; color:var(--ink-soft); margin-bottom:8px;}
+  .voice-field select{width:100%; font-family:inherit; font-size:16px; padding:10px 12px; border-radius:9px; border:1px solid var(--line); background:var(--paper); color:var(--ink);}
+  .ov-section-title{font-family:'Fraunces',serif; font-weight:600; font-size:16px; margin:22px 0 10px;}
+  .event{background:var(--paper-raised); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-bottom:10px;}
+  .event.wichtig{background:var(--warn-bg); border-color:var(--warn-line);}
+  .event-top{margin-bottom:10px;}
+  .event-date{font-size:12.5px; font-weight:700; color:var(--ink-soft);}
+  .event.wichtig .event-date{color:var(--warn-text);}
+  .event-title{font-weight:600; font-size:15.5px; line-height:1.35;}
+  .event-where{font-size:13px; color:var(--ink-soft); margin-top:2px;}
+  .choices{display:flex; gap:7px;}
+  .choice{flex:1; padding:9px 4px; border-radius:9px; border:1.5px solid var(--line); background:var(--paper); color:var(--ink-soft); font-family:inherit; font-weight:600; font-size:13.5px; cursor:pointer;}
+  .choice:active{transform:scale(.96);}
+  .choice[data-v="ja"].active{background:var(--ja-bg); border-color:var(--ja); color:var(--ja);}
+  .choice[data-v="nein"].active{background:var(--nein-bg); border-color:var(--nein); color:var(--nein);}
+  .choice[data-v="sonstige"].active{background:var(--sonst-bg); border-color:var(--sonst); color:var(--sonst);}
+  .sonstige-text{display:none; margin-top:8px;}
+  .sonstige-text.show{display:block;}
+  .sonstige-text input{width:100%; font-family:inherit; font-size:14px; padding:8px 10px; border-radius:8px; border:1px solid var(--sonst); background:var(--sonst-bg); color:var(--ink);}
+  .savebar{position:fixed; left:0; right:0; bottom:0; background:var(--paper-raised); border-top:1px solid var(--line); padding:12px 18px calc(12px + env(safe-area-inset-bottom)); display:flex; justify-content:center;}
+  .savebar-inner{max-width:720px; width:100%; display:flex; align-items:center; gap:12px;}
+  .status{font-size:13px; color:var(--ink-soft); flex:1; min-height:16px;}
+  button.save{font-family:inherit; font-weight:700; font-size:15px; background:var(--violet); color:#fff; border:none; border-radius:10px; padding:12px 22px; cursor:pointer;}
+  button.save:active{transform:scale(.98);}
+  .overview-toggle{display:block; width:100%; margin:30px 0 6px; background:none; border:1px solid var(--line); border-radius:10px; padding:11px; font-family:inherit; font-weight:600; font-size:14px; color:var(--ink); cursor:pointer;}
+  .overview{display:none; margin-top:14px;}
+  .overview.show{display:block;}
+  .ov-scroll{overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--paper-raised);}
+  table{border-collapse:collapse; width:100%; font-size:12.5px; min-width:640px;}
+  th,td{padding:8px 10px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top;}
+  th{background:var(--paper); font-weight:700; color:var(--ink-soft); position:sticky; top:0;}
+  td.num{text-align:center; font-weight:700; white-space:nowrap;}
+  tr.wichtig td{background:var(--warn-bg);}
+  .empty-hint{font-size:13px; color:var(--ink-soft); padding:14px; text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Jassa Terminumfrage</h1>
+  </header>
+
+  <div class="intro">
+    Damit wir Konzerte und größere Termine gut planen können, ist eine möglichst verbindliche Rückmeldung bei den <b>gelb markierten Terminen</b> wichtig. Sollte bei einer Probe kurzfristig etwas dazwischenkommen, bitte frühzeitig an <b>abmeldung@jassaberlin.de</b> schreiben.
+  </div>
+
+  <div class="name-field">
+    <label for="nameInput">Dein Name</label>
+    <input id="nameInput" type="text" autocomplete="name">
+  </div>
+
+  <div class="voice-field">
+    <label for="voiceInput">Deine Stimmgruppe</label>
+    <select id="voiceInput">
+      <option value="">Bitte wählen</option>
+      <option value="S1">S1</option>
+      <option value="S2">S2</option>
+      <option value="A1">A1</option>
+      <option value="A2">A2</option>
+    </select>
+  </div>
+
+  <div id="events"></div>
+
+  <button class="overview-toggle" id="ovToggle">Übersicht anzeigen</button>
+  <div class="overview" id="overview">
+    <div class="ov-scroll"><div id="ovContent"></div></div>
+  </div>
+</div>
+
+<div class="savebar">
+  <div class="savebar-inner">
+    <div class="status" id="status">Noch nicht gespeichert</div>
+    <button class="save" id="saveBtn" disabled>Speichern</button>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+import { getFirestore, collection, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCYaxXOOVnr00FXU_cVhnl6y9PR5F-gyic",
+  authDomain: "jassa-termine.firebaseapp.com",
+  projectId: "jassa-termine",
+  storageBucket: "jassa-termine.firebasestorage.app",
+  messagingSenderId: "895564432109",
+  appId: "1:895564432109:web:b3819578b9cbe28a1082e4"
+};
+
+const app = initializeApp(firebaseConfig);
+const dbFire = getFirestore(app);
+const auth = getAuth(app);
+let authReady = false;
+
+onAuthStateChanged(auth, (user) => {
+  if(user){
+    authReady = true;
+    document.getElementById("saveBtn").disabled = false;
+  }
+});
+
+signInAnonymously(auth).catch((e) => {
+  console.error("Anmeldung fehlgeschlagen", e);
+  setStatus("Verbindung fehlgeschlagen – bitte Seite neu laden");
+});
+
+const EVENTS = [
+  {id:"2026-10-01", month:"Oktober 2026", date:"Do 1.10.26", title:"Stimmprobe"},
+  {id:"2026-10-08", month:"Oktober 2026", date:"Do 8.10.26", title:"Probe"},
+  {id:"2026-10-15", month:"Oktober 2026", date:"Do 15.10.26", title:"Probe"},
+  {id:"2026-11-05", month:"November 2026", date:"Do 5.11.26", title:"Stimmprobe"},
+  {id:"2026-11-12", month:"November 2026", date:"Do 12.11.26", title:"Probe"},
+  {id:"2026-11-19", month:"November 2026", date:"Do 19.11.26", title:"Probe"},
+  {id:"2026-11-21", month:"November 2026", date:"Sa 21.11.26", title:"Konzert mit Jazz Vocals", where:"Christuskirche, Oberschöneweide", wichtig:true},
+  {id:"2026-11-26", month:"November 2026", date:"Do 26.11.26", title:"Probe"},
+  {id:"2026-11-28", month:"November 2026", date:"Sa 28.11.26, 11–17 Uhr", title:"Workshop „Believe is a Collective Art“ (Biaca) mit Babe*&Laris", wichtig:true},
+  {id:"2026-12-03", month:"Dezember 2026", date:"Do 3.12.26", title:"Probe"},
+  {id:"2026-12-10", month:"Dezember 2026", date:"Do 10.12.26", title:"Probe"},
+  {id:"2026-12-11", month:"Dezember 2026", date:"Fr 11.12.26", title:"Konzert Choral Space (+2 Chöre aus Singapur)", wichtig:true},
+  {id:"2026-12-17", month:"Dezember 2026", date:"Do 17.12.26", title:"Probe"},
+  {id:"2027-01-07", month:"Januar 2027", date:"Do 7.1.27", title:"Probe"},
+  {id:"2027-01-14", month:"Januar 2027", date:"Do 14.1.27", title:"Probe"},
+  {id:"2027-01-21", month:"Januar 2027", date:"Do 21.1.27", title:"Probe"},
+  {id:"2027-01-28", month:"Januar 2027", date:"Do 28.1.27", title:"Probe mit Babe*&Laris", where:"Gesundbrunnen GS", wichtig:true},
+  {id:"2027-02-11", month:"Februar 2027", date:"Do 11.2.27", title:"Probe"},
+  {id:"2027-02-18", month:"Februar 2027", date:"Do 18.2.27", title:"Probe mit Babe*&Laris", where:"Gesundbrunnen GS", wichtig:true},
+  {id:"2027-02-25", month:"Februar 2027", date:"Do 25.2.27", title:"Probe"},
+  {id:"2027-03-04", month:"März 2027", date:"Do 4.3.27", title:"Probe"},
+  {id:"2027-03-05", month:"März 2027", date:"Fr 5.3.–Mo 8.3.27", title:"Probenfahrt mit Babe&Laris", wichtig:true},
+  {id:"2027-03-11", month:"März 2027", date:"Do 11.3.27", title:"Probe"},
+  {id:"2027-03-18", month:"März 2027", date:"Do 18.3.27", title:"Probe"},
+  {id:"2027-03-25", month:"März 2027", date:"Do 25.3.27", title:"Probe"},
+  {id:"2027-04-01", month:"April 2027", date:"Do 1.4.27", title:"Probe"},
+  {id:"2027-04-08", month:"April 2027", date:"Do 8.4.27", title:"Probe"},
+  {id:"2027-04-15", month:"April 2027", date:"Do 15.4.27", title:"Probe"},
+  {id:"2027-04-16", month:"April 2027", date:"Fr 16.–So 18.4.27", title:"Konzert & Endproben", where:"Bethanien Studio 1", wichtig:true},
+  {id:"2027-04-22", month:"April 2027", date:"Do 22.4.27", title:"Feedback-Treffen"},
+];
+
+const answers = {};
+
+function slugify(name){
+  return name.trim().toLowerCase()
+    .replace(/[äöüß]/g, c => ({ä:"ae",ö:"oe",ü:"ue",ß:"ss"}[c]))
+    .replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"") || "anonym";
+}
+
+function render(){
+  const container = document.getElementById("events");
+  container.innerHTML = "";
+  let lastMonth = "";
+  EVENTS.forEach(ev => {
+    if(ev.month !== lastMonth){
+      lastMonth = ev.month;
+      const h = document.createElement("div");
+      h.className = "month-heading";
+      h.textContent = ev.month;
+      container.appendChild(h);
+    }
+    const card = document.createElement("div");
+    card.className = "event" + (ev.wichtig ? " wichtig" : "");
+    card.innerHTML = `
+      <div class="event-top">
+        <div class="event-date">${ev.date}</div>
+        <div class="event-title">${ev.title}</div>
+        ${ev.where ? `<div class="event-where">${ev.where}</div>` : ""}
+      </div>
+      <div class="choices">
+        <button class="choice" data-v="ja">Ja</button>
+        <button class="choice" data-v="nein">Nein</button>
+        <button class="choice" data-v="sonstige">Sonstige</button>
+      </div>
+      <div class="sonstige-text"><input type="text" placeholder="z.B. später, ggf, noch unsicher"></div>
+    `;
+    const choices = card.querySelector(".choices");
+    const sonstigeBox = card.querySelector(".sonstige-text");
+    const sonstigeInput = sonstigeBox.querySelector("input");
+    choices.querySelectorAll(".choice").forEach(btn => {
+      btn.addEventListener("click", () => {
+        [...choices.children].forEach(c => c.classList.remove("active"));
+        btn.classList.add("active");
+        const v = btn.dataset.v;
+        if(v === "sonstige"){
+          sonstigeBox.classList.add("show");
+          sonstigeInput.focus();
+          answers[ev.id] = sonstigeInput.value.trim() || "Sonstige";
+        } else {
+          sonstigeBox.classList.remove("show");
+          answers[ev.id] = v === "ja" ? "Ja" : "Nein";
+        }
+        setStatus("Ungespeicherte Änderungen");
+      });
+    });
+    sonstigeInput.addEventListener("input", () => {
+      answers[ev.id] = sonstigeInput.value.trim() || "Sonstige";
+      setStatus("Ungespeicherte Änderungen");
+    });
+    container.appendChild(card);
+  });
+}
+
+function setStatus(text){ document.getElementById("status").textContent = text; }
+
+function init(){
+  render();
+  wireOverview();
+}
+
+document.getElementById("saveBtn").addEventListener("click", async () => {
+  if(!authReady){ setStatus("Verbindung wird aufgebaut – bitte kurz warten"); return; }
+  const name = document.getElementById("nameInput").value.trim();
+  const voiceGroup = document.getElementById("voiceInput").value;
+  if(!name){ setStatus("Bitte zuerst deinen Namen eintragen"); return; }
+  if(!voiceGroup){ setStatus("Bitte deine Stimmgruppe auswählen"); return; }
+  if(Object.keys(answers).length === 0){ setStatus("Bitte mindestens einen Termin beantworten"); return; }
+  const slug = slugify(name);
+  setStatus("Speichere…");
+  try{
+    await setDoc(doc(dbFire, "responses", slug), {
+      name: name, voiceGroup: voiceGroup, answers: answers, updatedAt: new Date().toISOString()
+    });
+    setStatus("Gespeichert ✓ – du kannst Antworten jederzeit hier ändern");
+    loadExisting(slug);
+  }catch(e){ setStatus("Fehler beim Speichern – bitte nochmal versuchen"); console.error(e); }
+});
+
+document.getElementById("nameInput").addEventListener("change", (e) => {
+  const name = e.target.value.trim();
+  if(name) loadExisting(slugify(name));
+});
+
+async function loadExisting(slug){
+  if(!authReady) return;
+  try{
+    const snap = await getDoc(doc(dbFire, "responses", slug));
+    if(snap.exists()){
+      const data = snap.data();
+      Object.assign(answers, data.answers || {});
+      if(data.voiceGroup) document.getElementById("voiceInput").value = data.voiceGroup;
+      const cards = document.querySelectorAll(".event");
+      EVENTS.forEach((ev, i) => {
+        const card = cards[i];
+        const val = answers[ev.id];
+        if(val && card){
+          const choices = card.querySelector(".choices");
+          const sonstigeBox = card.querySelector(".sonstige-text");
+          const sonstigeInput = sonstigeBox.querySelector("input");
+          if(val === "Ja" || val === "Nein"){
+            choices.querySelectorAll(".choice").forEach(b => b.classList.toggle("active", b.dataset.v === val.toLowerCase()));
+          } else {
+            choices.querySelectorAll(".choice").forEach(b => b.classList.toggle("active", b.dataset.v === "sonstige"));
+            sonstigeBox.classList.add("show");
+            sonstigeInput.value = val;
+          }
+        }
+      });
+      setStatus("Vorherige Antworten geladen – du kannst sie anpassen");
+    }
+  }catch(e){ /* ignore */ }
+}
+
+function wireOverview(){
+  const toggle = document.getElementById("ovToggle");
+  const panel = document.getElementById("overview");
+  toggle.addEventListener("click", () => {
+    panel.classList.toggle("show");
+    toggle.textContent = panel.classList.contains("show") ? "Übersicht ausblenden" : "Übersicht anzeigen";
+    if(panel.classList.contains("show")) subscribeOverview();
+  });
+}
+
+let ovUnsub = null;
+function subscribeOverview(){
+  if(ovUnsub) return;
+  ovUnsub = onSnapshot(collection(dbFire, "responses"), snap => {
+    renderOverview(snap.docs.map(d => d.data()));
+  }, () => {
+    document.getElementById("ovContent").innerHTML = '<div class="empty-hint">Übersicht momentan nicht verfügbar</div>';
+  });
+}
+
+const VOICE_GROUPS = ["S1","S2","A1","A2"];
+
+function renderOverview(rows){
+  const el = document.getElementById("ovContent");
+  if(!rows.length){
+    el.innerHTML = '<div class="empty-hint">Noch keine Antworten eingetragen</div>';
+    return;
+  }
+  let html = '<table><thead><tr><th>Termin</th><th>Anzahl</th><th>Kommen</th><th>Kommen nicht</th><th>Sonstige</th></tr></thead><tbody>';
+  EVENTS.forEach(ev => {
+    const ja = [], nein = [], sonst = [];
+    rows.forEach(r => {
+      const v = (r.answers || {})[ev.id];
+      if(v === "Ja") ja.push(r.name);
+      else if(v === "Nein") nein.push(r.name);
+      else if(v) sonst.push(`${r.name}: ${v}`);
+    });
+    html += `<tr class="${ev.wichtig ? 'wichtig' : ''}">
+      <td><b>${ev.date}</b><br>${ev.title}</td>
+      <td class="num">${ja.length}</td>
+      <td>${ja.join(", ") || "–"}</td>
+      <td>${nein.join(", ") || "–"}</td>
+      <td>${sonst.join(", ") || "–"}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+
+  const totals = {};
+  VOICE_GROUPS.forEach(g => totals[g] = rows.filter(r => r.voiceGroup === g).length);
+
+  let html2 = '<table><thead><tr><th>Termin</th>' + VOICE_GROUPS.map(g => `<th>${g}</th>`).join("") + '</tr></thead><tbody>';
+  EVENTS.forEach(ev => {
+    html2 += `<tr class="${ev.wichtig ? 'wichtig' : ''}"><td><b>${ev.date}</b><br>${ev.title}</td>`;
+    VOICE_GROUPS.forEach(g => {
+      const namen = rows.filter(r => r.voiceGroup === g && (r.answers||{})[ev.id] === "Ja").map(r => r.name);
+      html2 += `<td>${namen.length}/${totals[g]}${namen.length ? "<br>"+namen.join(", ") : ""}</td>`;
+    });
+    html2 += "</tr>";
+  });
+  html2 += '</tbody></table>';
+
+  el.innerHTML = '<div class="ov-section-title" style="padding:0 2px;">Anwesenheit</div>' + html +
+    '<div class="ov-section-title" style="padding:0 2px;">Stimmgruppen</div>' + html2;
+}
+
+init();
+</script>
+</body>
+</html>
