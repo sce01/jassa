@@ -87,6 +87,17 @@
 </style>
 </head>
 <body>
+
+<div id="pwGate" style="position:fixed; inset:0; background:var(--paper); z-index:999; display:flex; align-items:center; justify-content:center; padding:20px;">
+  <div style="max-width:340px; width:100%; background:var(--paper-raised); border:1px solid var(--line); border-radius:14px; padding:24px; text-align:center;">
+    <div style="font-family:'Fraunces',serif; font-weight:600; font-size:20px; margin-bottom:14px;">Jassa Terminumfrage</div>
+    <label for="pwInput" style="display:block; font-size:13px; font-weight:600; color:var(--ink-soft); margin-bottom:8px;">Bitte Passwort eingeben</label>
+    <input id="pwInput" type="password" style="width:100%; font-family:inherit; font-size:16px; padding:10px 12px; border-radius:9px; border:1px solid var(--line); background:var(--paper); color:var(--ink); margin-bottom:10px;">
+    <button id="pwSubmit" style="width:100%; font-family:inherit; font-weight:700; font-size:15px; background:var(--violet); color:#fff; border:none; border-radius:10px; padding:11px; cursor:pointer;">Weiter</button>
+    <div id="pwError" style="color:var(--nein); font-size:13px; margin-top:10px; min-height:16px;"></div>
+  </div>
+</div>
+
 <div class="wrap">
   <header>
     <h1>Jassa Terminumfrage</h1>
@@ -140,6 +151,30 @@ const firebaseConfig = {
   messagingSenderId: "895564432109",
   appId: "1:895564432109:web:b3819578b9cbe28a1082e4"
 };
+
+const SITE_PASSWORD = "jassa2026"; // <- hier dein gewünschtes Passwort eintragen
+
+function checkPassword(){
+  const gate = document.getElementById("pwGate");
+  if(sessionStorage.getItem("jassaAuthed") === "yes"){
+    gate.style.display = "none";
+    return;
+  }
+  document.getElementById("pwSubmit").addEventListener("click", tryPassword);
+  document.getElementById("pwInput").addEventListener("keydown", (e) => {
+    if(e.key === "Enter") tryPassword();
+  });
+  function tryPassword(){
+    const val = document.getElementById("pwInput").value;
+    if(val === SITE_PASSWORD){
+      sessionStorage.setItem("jassaAuthed", "yes");
+      gate.style.display = "none";
+    } else {
+      document.getElementById("pwError").textContent = "Falsches Passwort";
+    }
+  }
+}
+checkPassword();
 
 const app = initializeApp(firebaseConfig);
 const dbFire = getFirestore(app);
