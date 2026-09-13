@@ -12,18 +12,18 @@
     --ink:#1C2340; --ink-soft:#4A5170;
     --paper:#F7F4EC; --paper-raised:#FFFFFF;
     --line:#DDD6C4;
-    --warn-bg:#E3EEFC; --warn-line:#7CA6DE; --warn-text:#2A5590;
+    --warn-bg:#E1F0E3; --warn-line:#6FA97E; --warn-text:#2F6B3E;
     --ja:#3F7A4E; --ja-bg:#E4F1E5;
     --nein:#A24A3C; --nein-bg:#F7E7E2;
     --sonst:#B08228; --sonst-bg:#FBF0DA;
     --violet:#5C4A9C;
-    --shadow:0 1px 3px rgba(28,35,64,0.06), 0 1px 2px rgba(28,35,64,0.04);
+    --shadow:0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.05);
   }
   :root:not([data-theme="light"]) { @media (prefers-color-scheme: dark) {
     --ink:#EDE9DC; --ink-soft:#B9B3A0;
     --paper:#171A28; --paper-raised:#20243A;
     --line:#333854;
-    --warn-bg:#1E2E48; --warn-line:#4A73AD; --warn-text:#9EC1EF;
+    --warn-bg:#1E3324; --warn-line:#4C8862; --warn-text:#9AD6AE;
     --ja:#8FCB98; --ja-bg:#1F3324;
     --nein:#E29A8B; --nein-bg:#3A241E;
     --sonst:#E3C071; --sonst-bg:#3A2F17;
@@ -34,7 +34,7 @@
     --ink:#EDE9DC; --ink-soft:#B9B3A0;
     --paper:#171A28; --paper-raised:#20243A;
     --line:#333854;
-    --warn-bg:#1E2E48; --warn-line:#4A73AD; --warn-text:#9EC1EF;
+    --warn-bg:#1E3324; --warn-line:#4C8862; --warn-text:#9AD6AE;
     --ja:#8FCB98; --ja-bg:#1F3324;
     --nein:#E29A8B; --nein-bg:#3A241E;
     --sonst:#E3C071; --sonst-bg:#3A2F17;
@@ -107,7 +107,7 @@
   </header>
 
   <div class="intro">
-    Damit wir Konzerte und größere Termine gut planen können, ist eine möglichst verbindliche Rückmeldung bei den <b>blau markierten Terminen</b> wichtig. Sollte bei einer Probe kurzfristig etwas dazwischenkommen, bitte frühzeitig an <b>abmeldung@jassaberlin.de</b> schreiben.
+    Damit wir Konzerte und größere Termine gut planen können, ist eine möglichst verbindliche Rückmeldung bei den <b>grün markierten Terminen</b> wichtig. Sollte bei einer Probe kurzfristig etwas dazwischenkommen, bitte frühzeitig an <b>abmeldung@jassaberlin.de</b> schreiben.
   </div>
 
   <div class="name-field">
@@ -155,7 +155,7 @@ const firebaseConfig = {
   appId: "1:895564432109:web:b3819578b9cbe28a1082e4"
 };
 
-const SITE_PASSWORD_HASH = "2939d322d7f88a7d83f59eab28d9e5218f52def298bcc8cf08f6cd43e11f56ef";
+const SITE_PASSWORD_HASH = "4660b778c7b72a3eb8188d8c9d8d0d727f5bf1db90ad3800abad81ac3b7eafd9"; // Hash für Passwort: jassa2026
 
 async function sha256(text){
   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
