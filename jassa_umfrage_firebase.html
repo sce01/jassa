@@ -6,54 +6,57 @@
 <title>Jassa Terminumfrage</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink:#1C2340; --ink-soft:#4A5170;
     --paper:#F7F4EC; --paper-raised:#FFFFFF;
     --line:#DDD6C4;
-    --warn-bg:#FBDDB0; --warn-line:#E3AE5C; --warn-text:#7A4E14;
+    --warn-bg:#E3EEFC; --warn-line:#7CA6DE; --warn-text:#2A5590;
     --ja:#3F7A4E; --ja-bg:#E4F1E5;
     --nein:#A24A3C; --nein-bg:#F7E7E2;
     --sonst:#B08228; --sonst-bg:#FBF0DA;
     --violet:#5C4A9C;
+    --shadow:0 1px 3px rgba(28,35,64,0.06), 0 1px 2px rgba(28,35,64,0.04);
   }
   :root:not([data-theme="light"]) { @media (prefers-color-scheme: dark) {
     --ink:#EDE9DC; --ink-soft:#B9B3A0;
     --paper:#171A28; --paper-raised:#20243A;
     --line:#333854;
-    --warn-bg:#3A2F17; --warn-line:#5C4A22; --warn-text:#E3B45C;
+    --warn-bg:#1E2E48; --warn-line:#4A73AD; --warn-text:#9EC1EF;
     --ja:#8FCB98; --ja-bg:#1F3324;
     --nein:#E29A8B; --nein-bg:#3A241E;
     --sonst:#E3C071; --sonst-bg:#3A2F17;
     --violet:#B4A4E8;
+    --shadow:0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
   }}
   :root[data-theme="dark"]{
     --ink:#EDE9DC; --ink-soft:#B9B3A0;
     --paper:#171A28; --paper-raised:#20243A;
     --line:#333854;
-    --warn-bg:#3A2F17; --warn-line:#5C4A22; --warn-text:#E3B45C;
+    --warn-bg:#1E2E48; --warn-line:#4A73AD; --warn-text:#9EC1EF;
     --ja:#8FCB98; --ja-bg:#1F3324;
     --nein:#E29A8B; --nein-bg:#3A241E;
     --sonst:#E3C071; --sonst-bg:#3A2F17;
     --violet:#B4A4E8;
+    --shadow:0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
   }
   *{box-sizing:border-box;}
-  body{margin:0; background:var(--paper); color:var(--ink); font-family:'Inter',system-ui,sans-serif; padding-bottom:96px;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:'Poppins',system-ui,sans-serif; padding-bottom:96px;}
   .wrap{max-width:720px; margin:0 auto; padding:26px 18px 40px;}
-  h1{font-family:'Fraunces',serif; font-weight:600; font-size:clamp(26px,7vw,34px); margin:0 0 6px; line-height:1.1;}
-  .intro{font-size:14px; color:var(--ink-soft); line-height:1.55; background:var(--paper-raised); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin:16px 0 22px;}
+  h1{font-family:'Poppins',sans-serif; font-weight:600; font-size:clamp(26px,7vw,34px); margin:0 0 6px; line-height:1.1;}
+  .intro{font-size:14px; color:var(--ink-soft); line-height:1.55; background:var(--paper-raised); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin:16px 0 22px; box-shadow:var(--shadow);}
   .intro b{color:var(--ink);}
-  .name-field{background:var(--paper-raised); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:22px;}
+  .name-field{background:var(--paper-raised); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:22px; box-shadow:var(--shadow);}
   .name-field label{display:block; font-size:13px; font-weight:600; color:var(--ink-soft); margin-bottom:8px;}
   .name-field input{width:100%; font-family:inherit; font-size:17px; padding:10px 12px; border-radius:9px; border:1px solid var(--line); background:var(--paper); color:var(--ink);}
   .name-field input:focus{outline:2px solid var(--violet); outline-offset:1px;}
-  .month-heading{font-family:'Inter',sans-serif; font-weight:600; font-size:15px; color:var(--ink-soft); margin:24px 0 10px; padding-bottom:6px; border-bottom:1px solid var(--line);}
-  .voice-field{background:var(--paper-raised); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:22px;}
+  .month-heading{font-family:'Poppins',sans-serif; font-weight:600; font-size:15px; color:var(--ink-soft); margin:24px 0 10px; padding-bottom:6px; border-bottom:1px solid var(--line);}
+  .voice-field{background:var(--paper-raised); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:22px; box-shadow:var(--shadow);}
   .voice-field label{display:block; font-size:13px; font-weight:600; color:var(--ink-soft); margin-bottom:8px;}
   .voice-field select{width:100%; font-family:inherit; font-size:16px; padding:10px 12px; border-radius:9px; border:1px solid var(--line); background:var(--paper); color:var(--ink);}
-  .ov-section-title{font-family:'Fraunces',serif; font-weight:600; font-size:16px; margin:22px 0 10px;}
-  .event{background:var(--paper-raised); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-bottom:10px;}
+  .ov-section-title{font-family:'Poppins',sans-serif; font-weight:600; font-size:16px; margin:22px 0 10px;}
+  .event{background:var(--paper-raised); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-bottom:10px; box-shadow:var(--shadow);}
   .event.wichtig{background:var(--warn-bg); border-color:var(--warn-line);}
   .event-top{margin-bottom:10px;}
   .event-date{font-size:12.5px; font-weight:700; color:var(--ink-soft);}
@@ -77,7 +80,7 @@
   .overview-toggle{display:block; width:100%; margin:30px 0 6px; background:none; border:1px solid var(--line); border-radius:10px; padding:11px; font-family:inherit; font-weight:600; font-size:14px; color:var(--ink); cursor:pointer;}
   .overview{display:none; margin-top:14px;}
   .overview.show{display:block;}
-  .ov-scroll{overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--paper-raised);}
+  .ov-scroll{overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--paper-raised); box-shadow:var(--shadow);}
   table{border-collapse:collapse; width:100%; font-size:12.5px; min-width:640px;}
   th,td{padding:8px 10px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top;}
   th{background:var(--paper); font-weight:700; color:var(--ink-soft); position:sticky; top:0;}
@@ -90,7 +93,7 @@
 
 <div id="pwGate" style="position:fixed; inset:0; background:var(--paper); z-index:999; display:flex; align-items:center; justify-content:center; padding:20px;">
   <div style="max-width:340px; width:100%; background:var(--paper-raised); border:1px solid var(--line); border-radius:14px; padding:24px; text-align:center;">
-    <div style="font-family:'Fraunces',serif; font-weight:600; font-size:20px; margin-bottom:14px;">Jassa Terminumfrage</div>
+    <div style="font-family:'Poppins',sans-serif; font-weight:600; font-size:20px; margin-bottom:14px;">Jassa Terminumfrage</div>
     <label for="pwInput" style="display:block; font-size:13px; font-weight:600; color:var(--ink-soft); margin-bottom:8px;">Bitte Passwort eingeben</label>
     <input id="pwInput" type="password" style="width:100%; font-family:inherit; font-size:16px; padding:10px 12px; border-radius:9px; border:1px solid var(--line); background:var(--paper); color:var(--ink); margin-bottom:10px;">
     <button id="pwSubmit" style="width:100%; font-family:inherit; font-weight:700; font-size:15px; background:var(--violet); color:#fff; border:none; border-radius:10px; padding:11px; cursor:pointer;">Weiter</button>
@@ -152,7 +155,7 @@ const firebaseConfig = {
   appId: "1:895564432109:web:b3819578b9cbe28a1082e4"
 };
 
-const SITE_PASSWORD_HASH = "2939d322d7f88a7d83f59eab28d9e5218f52def298bcc8cf08f6cd43e11f56ef"; // SHA-256 Hash des Passworts, siehe Anleitung
+const SITE_PASSWORD_HASH = "4660b778c7b72a3eb8188d8c9d8d0d727f5bf1db90ad3800abad81ac3b7eafd9"; // Hash für Passwort: jassa2026
 
 async function sha256(text){
   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
